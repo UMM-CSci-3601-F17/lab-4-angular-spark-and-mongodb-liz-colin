@@ -15,7 +15,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 public class Server {
     private static final String userDatabaseName = "dev";
     // May need to ask about name!
-    private static final String todoDatabaseName = "todoDev";
+    private static final String todoDatabaseName = "dev";
     private static final int serverPort = 4567;
 
     public static void main(String[] args) throws IOException {
