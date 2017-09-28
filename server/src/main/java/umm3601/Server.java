@@ -5,6 +5,7 @@ import com.mongodb.client.MongoDatabase;
 import spark.Request;
 import spark.Response;
 import umm3601.user.UserController;
+import umm3601.todo.TodoController;
 
 import java.io.IOException;
 
@@ -13,14 +14,18 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Server {
     private static final String userDatabaseName = "dev";
+    // May need to ask about name!
+    private static final String todoDatabaseName = "todoDev";
     private static final int serverPort = 4567;
 
     public static void main(String[] args) throws IOException {
 
         MongoClient mongoClient = new MongoClient();
         MongoDatabase userDatabase = mongoClient.getDatabase(userDatabaseName);
+        MongoDatabase todoDatabase = mongoClient.getDatabase(todoDatabaseName);
 
         UserController userController = new UserController(userDatabase);
+        TodoController todoController = new TodoController(todoDatabase);
 
         //Configure Spark
         port(serverPort);
@@ -63,6 +68,17 @@ public class Server {
         get("api/users/:id", userController::getUser);
         post("api/users/new", userController::addNewUser);
 
+
+        /// Todo Endpoints ///////////////////////////
+        /////////////////////////////////////////////
+
+        //List todos, filtered using query parameters
+
+        get("api/todos", todoController::getTodos);
+        get("api/todos/:id", todoController::getTodo);
+        post("api/todos/new", todoController::addNewTodo);
+
+
         // An example of throwing an unhandled exception so you can see how the
         // Java Spark debugger displays errors like this.
         get("api/error", (req, res) -> {
@@ -75,6 +91,7 @@ public class Server {
         // There's a similar "before" method that can be used to modify requests
         // before they they're processed by things like `get`.
         after("*", Server::addGzipHeader);
+
 
         // Handle "404" file not found requests:
         notFound((req, res) -> {
