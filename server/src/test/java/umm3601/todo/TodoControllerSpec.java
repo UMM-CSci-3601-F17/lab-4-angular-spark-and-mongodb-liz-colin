@@ -118,7 +118,7 @@ public class TodoControllerSpec {
         assertEquals("Should be one Todo", 1, docs.size());
         List<String> names = docs
             .stream()
-            .map(TodoControllerSpec::getName)
+            .map(TodoControllerSpec::getOwner)
             .sorted()
             .collect(Collectors.toList());
         List<String> expectedNames = Arrays.asList("Jamie");
