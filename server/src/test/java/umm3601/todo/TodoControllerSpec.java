@@ -107,6 +107,23 @@ public class TodoControllerSpec {
         Document todd = Document.parse(jsonResult);
         assertEquals("Owner should match", "Todd", todd.get("owner"));
     }
+
+    @Test
+    public void getTodoByContent() {
+        Map<String, String[]> contentMap1 = new HashMap<>();
+        contentMap1.put("content", new String[] { "zen" });
+        String jsonResult = todoController.getTodos(contentMap1);
+        BsonArray docs = parseJsonArray(jsonResult);
+
+        assertEquals("Should be one Todo", 1, docs.size());
+        List<String> names = docs
+            .stream()
+            .map(TodoControllerSpec::getName)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedNames = Arrays.asList("Jamie");
+        assertEquals("Names should match", expectedNames, names);
+    }
 }
 
 
