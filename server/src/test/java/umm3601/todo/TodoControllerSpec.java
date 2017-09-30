@@ -33,27 +33,27 @@ public class TodoControllerSpec {
         testTodos.add(Document.parse("{\n" +
             "                    owner: \"Chris\",\n" +
             "                    status: true,\n" +
-            "                    content: \"Turn it in!\",\n" +
+            "                    body: \"Turn it in!\",\n" +
             "                    category: \"homework\"\n" +
             "                }"));
         testTodos.add(Document.parse("{\n" +
             "                    owner: \"Patricia\",\n" +
             "                    status: false,\n" +
-            "                    content: \"Go to class!\",\n" +
+            "                    body: \"Go to class!\",\n" +
             "                    category: \"software design\"\n" +
             "                }"));
         testTodos.add(Document.parse("{\n" +
             "                    owner: \"Jamie\",\n" +
             "                    status: true,\n" +
-            "                    content: \"Manage zenhub issues\",\n" +
+            "                    body: \"Manage zenhub issues\",\n" +
             "                    category: \"software design\"\n" +
             "                }"));
 
         toddsId = new ObjectId();
         BasicDBObject todd = new BasicDBObject("_id", toddsId);
-        todd = todd.append("owner", "todd")
+        todd = todd.append("owner", "Todd")
             .append("status", true)
-            .append("content", "Become the champion of Norath")
+            .append("body", "Become the champion of Norath")
             .append("category", "video games");
 
 
@@ -97,7 +97,7 @@ public class TodoControllerSpec {
             .map(TodoControllerSpec::getOwner)
             .sorted()
             .collect(Collectors.toList());
-        List<String> expectedOwners = Arrays.asList("Chris", "Patricia", "Jamie", "Todd");
+        List<String> expectedOwners = Arrays.asList("Chris", "Jamie", "Patricia", "Todd");
         assertEquals("Owners should match", expectedOwners, owners);
     }
 
@@ -111,7 +111,7 @@ public class TodoControllerSpec {
     @Test
     public void getTodoByContent() {
         Map<String, String[]> contentMap1 = new HashMap<>();
-        contentMap1.put("content", new String[] { "zen" });
+        contentMap1.put("body", new String[] { "zenhub" });
         String jsonResult = todoController.getTodos(contentMap1);
         BsonArray docs = parseJsonArray(jsonResult);
 
