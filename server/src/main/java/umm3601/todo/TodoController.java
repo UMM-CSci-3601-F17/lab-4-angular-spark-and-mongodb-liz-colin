@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.regex;
 
 /**
  * Controller that manages requests for info about todos.
@@ -115,9 +116,9 @@ public class TodoController {
             filterDoc = filterDoc.append("status", targetStatus);
         }
 
-        if (queryParams.containsKey("content")) {
-            String targetContent = (queryParams.get("content")[0]);
-            filterDoc = filterDoc.append("content", targetContent);
+        if (queryParams.containsKey("body")) {
+            String targetContent =(queryParams.get("body")[0]);
+            filterDoc = filterDoc.append("body", targetContent);
         }
 
         //FindIterable comes from mongo, Document comes from Gson
