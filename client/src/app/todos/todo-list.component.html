@@ -24,10 +24,12 @@ Add a new Todo:
 </span>
 
 <ul class="list-group" *ngIf="todos; else todosError">
-    <li id="todos" *ngFor="let todo of this.filterTodos(todoOwner, todoStatus)" class="list-group-item">
-        {{ todo.owner }} has status {{ todo.status }}
+    <li id="todos" [ngStyle]="{'background-color':todo.status ? 'lightgreen' : 'lightcoral'}" *ngFor="let todo of this.filterTodos(todoCategory ,todoContent, todoStatus)" class="list-group-item">
+        <p id="subject-line"> {{ todo.owner }} has {{todo.status ? 'completed':'not completed'}} this {{ todo.category }} task: </p>
+        <p id="bodyText"> {{todo.body}} </p>
     </li>
 </ul>
+
 <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
 <ng-template #todosError>
     <p>
