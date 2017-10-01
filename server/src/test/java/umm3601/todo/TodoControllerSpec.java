@@ -128,9 +128,9 @@ public class TodoControllerSpec {
 
     @Test
     public void getTodoByStatus() {
-        Map<String, String[]> contentMap1 = new HashMap<>();
-        contentMap1.put("status", new String[]{"true"});
-        String jsonResult = todoController.getTodos(contentMap1);
+        Map<String, String[]> statusMap1 = new HashMap<>();
+        statusMap1.put("status", new String[]{"true"});
+        String jsonResult = todoController.getTodos(statusMap1);
         BsonArray docs = parseJsonArray(jsonResult);
 
         assertEquals("Should be three Todos", 3, docs.size());
@@ -159,6 +159,23 @@ public class TodoControllerSpec {
         List<String> expectedNames = Arrays.asList("Patricia");
         assertEquals("Names should match", expectedNames, names);
     }
-}
 
+    @Test
+    public void getTodoByStatusAndOwner() {
+        Map<String, String[]> ownerAndStatusMap = new HashMap<>();
+        ownerAndStatusMap.put("owner", new String[]{"Jamie"});
+        ownerAndStatusMap.put("status", new String[]{"true"});
+        String jsonResult = todoController.getTodos(ownerAndStatusMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+
+        assertEquals("Should be one Todo", 1, docs.size());
+        List<String> names = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedNames = Arrays.asList("Jamie");
+        assertEquals("Names should match", expectedNames, names);
+    }
+}
 
