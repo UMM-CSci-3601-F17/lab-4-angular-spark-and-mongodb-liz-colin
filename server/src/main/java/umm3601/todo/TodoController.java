@@ -126,10 +126,18 @@ public class TodoController {
 
         if (queryParams.containsKey("body")) {
             String targetContent = (queryParams.get("body")[0]);
-            Document regQuery = new Document();
-            regQuery.append("$regex", targetContent);
-            regQuery.append("$options", "i");
-            filterDoc = filterDoc.append("body", regQuery);
+            Document contentRegQuery = new Document();
+            contentRegQuery.append("$regex", targetContent);
+            contentRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("body", contentRegQuery);
+        }
+
+        if (queryParams.containsKey("owner")) {
+            String targetOwner = (queryParams.get("owner")[0]);
+            Document ownerRegQuery = new Document();
+            ownerRegQuery.append("$regex", targetOwner);
+            ownerRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("owner", ownerRegQuery);
         }
 
         //FindIterable comes from mongo, Document comes from Gson
