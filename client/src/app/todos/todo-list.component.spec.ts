@@ -22,21 +22,21 @@ describe("Todo list", () => {
                     _id: "chris_id",
                     owner: "Chris",
                     status: true,
-                    content: "Turn it in!",
+                    body: "Turn it in!",
                     category: "homework"
                 },
                 {
                     _id: "pat_id",
                     owner: "Patricia",
                     status: false,
-                    content: "Go to class!",
+                    body: "Go to class!",
                     category: "software design"
                 },
                 {
                     _id: "jamie_id",
                     owner: "Jamie",
                     status: true,
-                    content: "Manage zenhub issues",
+                    body: "Manage zenhub issues",
                     category: "software design"
                 }
             ])
@@ -82,7 +82,7 @@ describe("Todo list", () => {
     it("todo list refreshes", () => {
         expect(todoList.filteredTodos.length).toBe(3);
         let newTodos : Todo[] = new Array(1);
-        let newTodo : Todo = {_id: "5", owner:"Melbourne", status:false, content:"Pick up sausage", category:"grocery list"};
+        let newTodo : Todo = {_id: "5", owner:"Melbourne", status:false, body:"Pick up sausage", category:"grocery list"};
         newTodos.push(newTodo);
         todoList.todos = newTodos;
         todoList.refreshTodos();

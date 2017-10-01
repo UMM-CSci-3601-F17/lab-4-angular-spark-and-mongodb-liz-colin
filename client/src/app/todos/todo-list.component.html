@@ -20,11 +20,16 @@ Add a new Todo:
 <span id="title" class="list-group-item list-group-item-info">
     <span id="list-title"> Todo Owner </span>
     <input id="todoOwner" #input type="text" placeholder="Filter by owner" (input)="todoOwner = $event.target.value">
-    <input id="todoStatus" #input type="text" placeholder="Filter by status" (input)="todoStatus = $event.target.value">
+     Status:
+        <select id="status" #input type="text" placeholder="Filter by status" (input)="todoStatus=$event.target.value">
+            <option id="any-status" value="">Any status</option>
+            <option id="true" value="true">Complete</option>
+            <option id="false" value="false">Incomplete</option>
+        </select>
 </span>
 
 <ul class="list-group" *ngIf="todos; else todosError">
-    <li id="todos" [ngStyle]="{'background-color':todo.status ? 'lightgreen' : 'lightcoral'}" *ngFor="let todo of this.filterTodos(todoCategory ,todoContent, todoStatus)" class="list-group-item">
+    <li id="todos" [ngStyle]="{'background-color':todo.status ? 'lightgreen' : 'lightcoral'}" *ngFor="let todo of this.filterTodos(todoOwner, todoStatus)" class="list-group-item">
         <p id="subject-line"> {{ todo.owner }} has {{todo.status ? 'completed':'not completed'}} this {{ todo.category }} task: </p>
         <p id="bodyText"> {{todo.body}} </p>
     </li>

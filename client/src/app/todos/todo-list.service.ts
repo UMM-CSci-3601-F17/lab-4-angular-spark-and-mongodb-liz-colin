@@ -25,7 +25,7 @@ export class TodoListService {
     }
 
     addNewTodo(owner: string, status: boolean, content : string, category : string): Observable<Boolean> {
-        const body = {owner:owner, status:status, content:content, category:category};
+        const body = {owner:owner, status:status, body:content, category:category};
         console.log(body);
 
         //Send post request to add a new todo with the todo data as the body with specified headers.
