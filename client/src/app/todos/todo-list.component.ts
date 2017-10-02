@@ -23,6 +23,8 @@ export class TodoListComponent implements OnInit {
     public newTodoContent: string;
     public newTodoCategory: string;
 
+    public loadReady: boolean = false;
+
 
     //Inject the TodoListService into this component.
     //That's what happens in the following constructor.
@@ -108,6 +110,20 @@ export class TodoListComponent implements OnInit {
             err => {
                 console.log(err);
             });
+    }
+
+    loadService(): void {
+        console.log("yay");
+        this.loadReady = true;
+        this.todoListService.getTodos().subscribe(
+            todos => {
+                this.todos = todos;
+                this.filteredTodos = this.todos;
+            },
+            err => {
+                console.log(err);
+            }
+        );
     }
 
     ngOnInit(): void {
