@@ -6,6 +6,14 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
+
+import com.mongodb.Block;
+import com.mongodb.client.model.Indexes;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
+import com.mongodb.client.model.TextSearchOptions;
+import com.mongodb.client.model.Projections;
+
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import spark.Request;
@@ -15,6 +23,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.regex;
+import static com.mongodb.client.model.Filters.text;
 
 /**
  * Controller that manages requests for info about todos.
@@ -44,7 +54,7 @@ public class TodoController {
      * @param res the HTTP response
      * @return one todo in JSON formatted string and if it fails it will return text with a different HTTP status code
      */
-    public String getTodo(Request req, Response res){
+    public String getTodo(Request req, Response res) {
         res.type("application/json");
         String id = req.params("id");
         String todo;
@@ -96,8 +106,7 @@ public class TodoController {
      * @param res
      * @return an array of todos in JSON formatted String
      */
-    public String getTodos(Request req, Response res)
-    {
+    public String getTodos(Request req, Response res) {
         res.type("application/json");
         return getTodos(req.queryMap().toMap());
     }
@@ -115,6 +124,22 @@ public class TodoController {
             filterDoc = filterDoc.append("status", targetStatus);
         }
 
+        if (queryParams.containsKey("body")) {
+            String targetContent = (queryParams.get("body")[0]);
+            Document contentRegQuery = new Document();
+            contentRegQuery.append("$regex", targetContent);
+            contentRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("body", contentRegQuery);
+        }
+
+        if (queryParams.containsKey("owner")) {
+            String targetOwner = (queryParams.get("owner")[0]);
+            Document ownerRegQuery = new Document();
+            ownerRegQuery.append("$regex", targetOwner);
+            ownerRegQuery.append("$options", "i");
+            filterDoc = filterDoc.append("owner", ownerRegQuery);
+        }
+
         //FindIterable comes from mongo, Document comes from Gson
         FindIterable<Document> matchingTodos = todoCollection.find(filterDoc);
 
@@ -123,19 +148,16 @@ public class TodoController {
 
 
     /**
-     *
      * @param req
      * @param res
      * @return
      */
-    public boolean addNewTodo(Request req, Response res)
-    {
+    public boolean addNewTodo(Request req, Response res) {
 
         res.type("application/json");
         Object o = JSON.parse(req.body());
         try {
-            if(o.getClass().equals(BasicDBObject.class))
-            {
+            if (o.getClass().equals(BasicDBObject.class)) {
                 try {
                     BasicDBObject dbO = (BasicDBObject) o;
 
@@ -146,29 +168,22 @@ public class TodoController {
 
                     System.err.println("Adding new todo [owner=" + owner + ", status=" + status + " content=" + content + " category=" + category + ']');
                     return addNewTodo(owner, status, content, category);
-                }
-                catch(NullPointerException e)
-                {
+                } catch (NullPointerException e) {
                     System.err.println("A value was malformed or omitted, new todo request failed.");
                     return false;
                 }
 
-            }
-            else
-            {
+            } else {
                 System.err.println("Expected BasicDBObject, received " + o.getClass());
                 return false;
             }
-        }
-        catch(RuntimeException ree)
-        {
+        } catch (RuntimeException ree) {
             ree.printStackTrace();
             return false;
         }
     }
 
     /**
-     *
      * @param owner
      * @param status
      * @param content
@@ -185,17 +200,11 @@ public class TodoController {
 
         try {
             todoCollection.insertOne(newUser);
-        }
-        catch(MongoException me)
-        {
+        } catch (MongoException me) {
             me.printStackTrace();
             return false;
         }
 
         return true;
     }
-
-
-
-
 }
