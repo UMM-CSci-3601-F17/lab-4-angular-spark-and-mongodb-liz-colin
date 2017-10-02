@@ -53,6 +53,18 @@ export class TodoListComponent implements OnInit {
             });
     }
 
+    ownerChange(ownerString): void {
+        this.todoListService.serviceOwner = ownerString;
+    }
+
+    statusChange(statusString): void {
+        this.todoListService.serviceStatus = statusString;
+    }
+
+    contentChange(contentString): void {
+        this.todoListService.serviceContent = contentString;
+    }
+
 
     public filterTodos(searchOwner: string, searchStatus: string): Todo[] {
 
