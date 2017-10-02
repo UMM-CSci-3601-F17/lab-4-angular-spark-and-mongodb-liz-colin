@@ -43,6 +43,7 @@ export class TodoListService {
         }
 
         if (this.serviceContent !== "") {
+            console.log("content specified");
             if (this.todoUrl.indexOf('&') !== -1) {
                 this.todoUrl += 'content=' + this.serviceContent + '&';
             }
