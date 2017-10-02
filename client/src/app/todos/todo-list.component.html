@@ -19,9 +19,9 @@ Add a new Todo:
  the typescript. Unless made to do so by defining a todoOwner variable within this component's typescript file-->
 <span id="title" class="list-group-item list-group-item-info">
     <span id="list-title"> Todo Owner </span>
-    <input id="todoOwner" #input type="text" placeholder="Filter by owner" (input)="todoOwner = $event.target.value">
+    <input id="todoOwner" #input type="text" placeholder="Filter by owner" (input)="ownerChange($event.target.value)">
      Status:
-        <select id="status" #input type="text" placeholder="Filter by status" (input)="todoStatus=$event.target.value">
+        <select id="status" #input type="text" placeholder="Filter by status" (input)="statusChange($event.target.value)">
             <option id="any-status" value="">Any status</option>
             <option id="true" value="true">Complete</option>
             <option id="false" value="false">Incomplete</option>
