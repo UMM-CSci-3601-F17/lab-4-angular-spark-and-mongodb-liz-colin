@@ -45,10 +45,10 @@ export class TodoListService {
         if (this.serviceContent !== "") {
             console.log("content specified");
             if (this.todoUrl.indexOf('&') !== -1) {
-                this.todoUrl += 'content=' + this.serviceContent + '&';
+                this.todoUrl += 'body=' + this.serviceContent + '&';
             }
             else {
-                this.todoUrl += "?content=" + this.serviceContent + "&";
+                this.todoUrl += "?body=" + this.serviceContent + "&";
             }
             console.log(this.todoUrl);
         }
