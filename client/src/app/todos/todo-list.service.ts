@@ -19,8 +19,7 @@ export class TodoListService {
     }
 
 
-
-    getTodos(): Observable<any> {
+getTodos(): Observable<any> {
         this.todoUrl = environment.API_URL + "todos";
         if (this.serviceOwner !== "") {
             console.log("owner specified");
@@ -52,6 +51,9 @@ export class TodoListService {
             }
             console.log(this.todoUrl);
         }
+        this.serviceOwner = "";
+        this.serviceStatus = "";
+        this.serviceContent = "";
 
         let observable: Observable<any> = this.http.request(this.todoUrl);
         return observable.map(res => res.json());
@@ -60,7 +62,7 @@ export class TodoListService {
 
 
 
-    /*
+/*
     getTodos(): Observable<Todo[]> {
         let observable: Observable<any> = this.http.request(this.todoUrl);
         return observable.map(res => res.json());
