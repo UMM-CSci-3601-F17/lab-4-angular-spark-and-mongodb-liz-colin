@@ -16,7 +16,7 @@ export class TodoListComponent implements OnInit {
     private todoAddSuccess: Boolean = false;
 
     public todoOwner: string;
-    public todoStatus: boolean;
+    public todoStatus: string;
 
     public newTodoOwner: string;
     public newTodoStatus: string;
@@ -108,7 +108,7 @@ export class TodoListComponent implements OnInit {
         this.todoListService.getTodos().subscribe(
             todos => {
                 this.todos = todos;
-       //         this.filterTodos(this.todoOwner, this.todoStatus.toString());
+                this.filterTodos(this.todoOwner, this.todoStatus);
                 // ****************************** Is this correct? ^ ***************************//
             },
             err => {
