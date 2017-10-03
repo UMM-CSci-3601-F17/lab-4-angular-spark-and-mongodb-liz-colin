@@ -19,9 +19,10 @@ export class TodoListComponent implements OnInit {
     public todoStatus: boolean;
 
     public newTodoOwner: string;
-    public newTodoStatus: boolean;
+    public newTodoStatus: string;
     public newTodoContent: string;
     public newTodoCategory: string;
+    public boolStatus: boolean;
 
     public loadReady: boolean = false;
 
@@ -35,7 +36,7 @@ export class TodoListComponent implements OnInit {
 
     }
 
-    addNewTodo(owner: string, status: boolean, content: string, category: string): void {
+    addNewTodo(owner: string, status: string, content: string, category: string): void {
 
         //Here we clear all the fields, there's probably a better way
         //of doing this could be with forms or something else
@@ -44,14 +45,17 @@ export class TodoListComponent implements OnInit {
         this.newTodoContent = null;
         this.newTodoCategory = null;
 
-        this.todoListService.addNewTodo(owner, status, content, category).subscribe(
+        this.boolStatus = (status === "true");
+
+        this.todoListService.addNewTodo(owner, this.boolStatus, content, category).subscribe(
             succeeded => {
                 this.todoAddSuccess = succeeded;
                 // Once we added a new Todo, refresh our todo list.
                 // There is a more efficient method where we request for
                 // this new todo from the server and add it to todos, but
                 // for this lab it's not necessary
-                this.refreshTodos();
+                // this.refreshTodos();
+                this.boolStatus = null;
             });
     }
 
@@ -104,7 +108,7 @@ export class TodoListComponent implements OnInit {
         this.todoListService.getTodos().subscribe(
             todos => {
                 this.todos = todos;
-                this.filterTodos(this.todoOwner, this.todoStatus.toString());
+       //         this.filterTodos(this.todoOwner, this.todoStatus.toString());
                 // ****************************** Is this correct? ^ ***************************//
             },
             err => {
