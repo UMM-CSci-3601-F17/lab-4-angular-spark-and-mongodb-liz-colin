@@ -51,7 +51,7 @@ export class TodoListComponent implements OnInit {
                 // There is a more efficient method where we request for
                 // this new todo from the server and add it to todos, but
                 // for this lab it's not necessary
-                this.refreshTodos();
+            //    this.refreshTodos();
             });
     }
 

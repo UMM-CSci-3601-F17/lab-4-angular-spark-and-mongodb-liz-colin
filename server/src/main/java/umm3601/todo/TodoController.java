@@ -163,11 +163,11 @@ public class TodoController {
 
                     String owner = dbO.getString("owner");
                     boolean status = dbO.getBoolean("status");
-                    String content = dbO.getString("content");
+                    String body = dbO.getString("content");
                     String category = dbO.getString("category");
 
-                    System.err.println("Adding new todo [owner=" + owner + ", status=" + status + " content=" + content + " category=" + category + ']');
-                    return addNewTodo(owner, status, content, category);
+                    System.err.println("Adding new todo [owner=" + owner + ", status=" + status + " content=" + body + " category=" + category + ']');
+                    return addNewTodo(owner, status, body, category);
                 } catch (NullPointerException e) {
                     System.err.println("A value was malformed or omitted, new todo request failed.");
                     return false;
@@ -186,20 +186,20 @@ public class TodoController {
     /**
      * @param owner
      * @param status
-     * @param content
+     * @param body
      * @param category
      * @return
      */
-    public boolean addNewTodo(String owner, boolean status, String content, String category) {
+    public boolean addNewTodo(String owner, boolean status, String body, String category) {
 
-        Document newUser = new Document();
-        newUser.append("owner", owner);
-        newUser.append("status", status);
-        newUser.append("content", content);
-        newUser.append("category", category);
+        Document newTodo = new Document();
+        newTodo.append("owner", owner);
+        newTodo.append("status", status);
+        newTodo.append("body", body);
+        newTodo.append("category", category);
 
         try {
-            todoCollection.insertOne(newUser);
+            todoCollection.insertOne(newTodo);
         } catch (MongoException me) {
             me.printStackTrace();
             return false;
