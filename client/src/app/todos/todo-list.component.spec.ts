@@ -98,14 +98,14 @@ describe("Todo list", () => {
 
     it("todo list filters by status", () => {
         expect(todoList.filteredTodos.length).toBe(3);
-        todoList.todoStatus = true;
+        todoList.todoStatus = "true";
         todoList.refreshTodos();
         expect(todoList.filteredTodos.length).toBe(2);
     });
 
     it("todo list filters by owner and status", () => {
         expect(todoList.filteredTodos.length).toBe(3);
-        todoList.todoStatus = false;
+        todoList.todoStatus = "false";
         todoList.todoOwner = "i";
         todoList.refreshTodos();
         expect(todoList.filteredTodos.length).toBe(1);

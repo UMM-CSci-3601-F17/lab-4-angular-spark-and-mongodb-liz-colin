@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bson.*;
 import org.bson.codecs.*;
 import org.bson.codecs.configuration.CodecRegistries;
@@ -18,6 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class TodoControllerSpec {
@@ -177,5 +179,66 @@ public class TodoControllerSpec {
         List<String> expectedNames = Arrays.asList("Jamie");
         assertEquals("Names should match", expectedNames, names);
     }
+
+    @Test
+    public void addTodo() {
+        todoController.addNewTodo("Bob", true, "Cleaning", "Wash the dishes");
+
+        Map<String, String[]> emptyMap = new HashMap<>();
+        String jsonResult = todoController.getTodos(emptyMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+
+        assertEquals("Should be 5 todos", 5, docs.size());
+        List<String> owners = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedOwners = Arrays.asList("Bob", "Chris", "Jamie", "Patricia", "Todd");
+        assertEquals("Owners should match", expectedOwners, owners);
+    }
+
+    @Test
+    public void filterNewTodo() {
+        todoController.addNewTodo("Bob", true, "Cleaning", "Wash the dishes");
+        Map<String, String[]> newTodoAttributesMap = new HashMap<>();
+        newTodoAttributesMap.put("owner", new String[]{"Bob"});
+        newTodoAttributesMap.put("status", new String[]{"true"});
+        newTodoAttributesMap.put("content", new String[]{"Wash"});
+        newTodoAttributesMap.put("category", new String[]{"Cleaning"});
+        String jsonResult = todoController.getTodos(newTodoAttributesMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+
+        List<String> bob = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedTodoOwner = Arrays.asList("Bob");
+        assertEquals("Owner should match", expectedTodoOwner, bob);
+
+    }
+    @Test
+    public void newTodosAdhereToFilters() {
+        todoController.addNewTodo("Bob", true, "Cleaning", "Wash the dishes");
+        Map<String, String[]> newTodoAttributesMap = new HashMap<>();
+        newTodoAttributesMap.put("owner", new String[]{"Patricia"});
+        newTodoAttributesMap.put("status", new String[]{"false"});
+        newTodoAttributesMap.put("content", new String[]{"Go to Class!"});
+        newTodoAttributesMap.put("category", new String[]{"Software Design"});
+        String jsonResult = todoController.getTodos(newTodoAttributesMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+
+        List<String> notBob = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedTodoOwner = Arrays.asList("Patricia");
+        assertEquals("Owner should match", expectedTodoOwner, notBob);
 }
+    }
+
+
+
 
