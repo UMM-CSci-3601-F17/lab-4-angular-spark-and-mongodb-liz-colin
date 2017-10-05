@@ -14,7 +14,6 @@ import {TodoComponent} from "./todos/todo.component";
 import {TodoListComponent} from './todos/todo-list.component';
 import {TodoListService} from './todos/todo-list.service';
 
-
 @NgModule({
     imports: [
         BrowserModule,
