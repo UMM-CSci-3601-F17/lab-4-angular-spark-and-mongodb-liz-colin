@@ -27,17 +27,13 @@ export class TodoPage {
         return title;
     }
 
-    typeAnOwner(name: string) {
+    filterByOwner(name: string) {
         let input = element(by.id('todoOwner'));
         input.click();
         input.sendKeys(name);
 
     }
 
-    /*
-    We credit Ethan again with helping us to get the end to end
-    testing to recognize when a filter has been selected from a dropdown.
-     */
     grabACategory(category: string) {
         let input = element(by.id('categories'));
         input.click();
@@ -64,6 +60,12 @@ export class TodoPage {
         let input = element(by.id('load-button'));
         input.click();
 
+    }
+
+    addTodo(owner: string, status: string, content: string, category:string) {
+        let input = element(by.tagName("input"));
+        input.click();
+        input.sendKeys(owner, Key.TAB, status, Key.TAB, content, Key.TAB, category, Key.TAB, Key.ENTER);
     }
 
     pressEnter() {
