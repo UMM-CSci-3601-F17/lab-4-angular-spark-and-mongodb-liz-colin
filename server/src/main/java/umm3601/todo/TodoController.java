@@ -4,41 +4,14 @@ import com.google.gson.Gson;
 import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.util.JSON;
-import com.mongodb.MapReduceCommand;
-
-import java.lang.reflect.Type;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import com.mongodb.Block;
-import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Projections;
-import com.mongodb.client.model.Filters;
-
-import org.bson.BsonDocument;
 import org.bson.Document;
-
 import org.bson.types.ObjectId;
 import spark.Request;
 import spark.Response;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.reflect.TypeToken;
-
-
-
 
 import static com.mongodb.client.model.Filters.eq;
 

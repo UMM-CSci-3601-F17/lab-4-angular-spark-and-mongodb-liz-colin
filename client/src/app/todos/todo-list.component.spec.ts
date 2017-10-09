@@ -79,6 +79,38 @@ describe("Todo list", () => {
         expect(todoList.todos.filter((todo: Todo) => todo.status === true).length).toBe(2);
     });
 
+    it("has at least one todo with a status of false", () => {
+        expect(todoList.todos.some((todo: Todo) => todo.status === false)).toBe(true);
+    });
+
+    it("has at least one todo with a status of true", () => {
+        expect(todoList.todos.some((todo: Todo) => todo.status === true)).toBe(true);
+    });
+
+    it("has one todo with a status of false", () => {
+        expect(todoList.todos.filter((todo: Todo) => todo.status === false).length).toBe(1);
+    });
+
+    it("has one todo with a status of true", () => {
+        expect(todoList.todos.filter((todo: Todo) => todo.status === true).length).toBe(2);
+    });
+
+    it("has one todo that has the content 'Turn it in!' in the body", () => {
+        expect(todoList.todos.filter((todo: Todo) => todo.body === "Turn it in!").length).toBe(1);
+    });
+
+    it("has no todos that have the content 'Ketchup' in the body", () => {
+        expect(todoList.todos.filter((todo: Todo) => todo.body === "Ketchup").length).toBe(0);
+    });
+
+    it("has a todo with the body: Go to class", () => {
+        expect(todoList.todos.some((todo: Todo) => todo.body === "Go to class!")).toBe(true);
+    });
+
+    it("has no todos with the body: 'Fix copying machine'", () => {
+        expect(todoList.todos.some((todo: Todo) => todo.body === "Fix copying machine")).toBe(false);
+    });
+
     it("todo list refreshes", () => {
         expect(todoList.filteredTodos.length).toBe(3);
         let newTodos : Todo[] = new Array(1);

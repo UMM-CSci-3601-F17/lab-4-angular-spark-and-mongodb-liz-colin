@@ -12,28 +12,28 @@ describe('angular-spark-mongo-lab', () => {
         page.navigateTo();
         page.filterByOwner("workman");
         page.toggleSearch();
-        expect(page.getFirstTodo()).toEqual("Workman has completed this software design task:");
+        expect(page.getFirstTodo()).toEqual('Workman has completed their task related to: software design');
     });
 
     it('Should select true for status and have the completed todos appear on the page', () => {
         page.navigateTo();
         page.selectStatus('Complete');
         page.toggleSearch();
-        expect(page.getFirstTodo()).toEqual("Fry has completed this homework task:")
+        expect(page.getFirstTodo()).toEqual('Fry has completed their task related to: homework')
     });
 
     it('Should select false for status and have the incomplete todos appear on the page', () => {
         page.navigateTo();
         page.selectStatus('Incomplete');
         page.toggleSearch();
-        expect(page.getFirstTodo()).toEqual("Blanche has not completed this software design task:")
+        expect(page.getFirstTodo()).toEqual('Blanche has not completed their task related to: software design')
     });
 
     it('Should only return todos that contain particular content', () => {
         page.navigateTo();
         page.filterByContent('Excepteur');
         page.toggleSearch();
-        expect(page.getFirstTodo()).toEqual("Blanche has not completed this homework task:")
+        expect(page.getFirstTodo()).toEqual('Blanche has not completed their task related to: homework')
     });
 
     it('Should correctly return todos that are filtered by multiple properties', () => {
@@ -41,9 +41,8 @@ describe('angular-spark-mongo-lab', () => {
         page.filterByContent('velit');
         page.selectStatus('Complete');
         page.filterByOwner('Workman');
-        //page.grabACategory('software design'); (change to 'Workman has completed this software design task:' if we implement category)
         page.toggleSearch();
-        expect(page.getFirstTodo()).toEqual('Workman has completed this groceries task:')
+        expect(page.getFirstTodo()).toEqual('Workman has completed their task related to: groceries')
     });
 
     it('Should add a new todo and then filter for it', () => {
@@ -53,14 +52,14 @@ describe('angular-spark-mongo-lab', () => {
        page.filterByContent('has all the tests needed');
        page.selectStatus('Incomplete');
        page.toggleSearch();
-       expect(page.getFirstTodo()).toEqual('Elizabeth has not completed this testing task:')
+       expect(page.getFirstTodo()).toEqual('Elizabeth has not completed their task related to: testing')
     });
 
     it('Should find the new todo after refreshing the page', () => {
         page.navigateTo();
         page.filterByOwner('Elizabeth');
         page.toggleSearch();
-        expect(page.getFirstTodo()).toEqual('Elizabeth has not completed this testing task:')
+        expect(page.getFirstTodo()).toEqual('Elizabeth has not completed their task related to: testing')
     });
 
     it('Should have an owner filter box', () => {
